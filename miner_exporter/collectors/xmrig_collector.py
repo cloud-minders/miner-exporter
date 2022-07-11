@@ -6,7 +6,7 @@ class XmrigCollector(object):
     def __init__(self, url, custom_labels):
         self.url = url
         self.custom_labels = custom_labels
-        self._prefix = "xmrig_"
+        self.prefix = "xmrig_"
 
     def collect(self):
         metrics = []
@@ -21,7 +21,7 @@ class XmrigCollector(object):
             if v is not None:
                 metrics.append(
                     make_metric(
-                        self._prefix + f"hashrate{i}",
+                        self.prefix + f"hashrate{i}",
                         "Overall Hashrate",
                         v,
                         "gauge",
@@ -36,7 +36,7 @@ class XmrigCollector(object):
         #             labels.update(ids)
         #             metrics.append(
         #                 make_metric(
-        #                     self._prefix + "thread_hashrate%d" % i,
+        #                     self.prefix + "thread_hashrate%d" % i,
         #                     "Thread Hashrate",
         #                     v,
         #                     "gauge",
@@ -46,7 +46,7 @@ class XmrigCollector(object):
 
         metrics.append(
             make_metric(
-                self._prefix + "diff_current",
+                self.prefix + "diff_current",
                 "Current Difficulty",
                 j["results"]["diff_current"],
                 "gauge",
@@ -56,7 +56,7 @@ class XmrigCollector(object):
 
         metrics.append(
             make_metric(
-                self._prefix + "shares_good",
+                self.prefix + "shares_good",
                 "Good Shares",
                 j["results"]["shares_good"],
                 "counter",
@@ -66,7 +66,7 @@ class XmrigCollector(object):
 
         metrics.append(
             make_metric(
-                self._prefix + "shares_total",
+                self.prefix + "shares_total",
                 "Total Shares",
                 j["results"]["shares_total"],
                 "counter",
@@ -76,7 +76,7 @@ class XmrigCollector(object):
 
         metrics.append(
             make_metric(
-                self._prefix + "avg_time",
+                self.prefix + "avg_time",
                 "Average Time",
                 j["results"]["avg_time"],
                 "gauge",
@@ -86,7 +86,7 @@ class XmrigCollector(object):
 
         metrics.append(
             make_metric(
-                self._prefix + "hashes_total",
+                self.prefix + "hashes_total",
                 "Total Hashes",
                 j["results"]["hashes_total"],
                 "counter",
@@ -96,13 +96,13 @@ class XmrigCollector(object):
 
         metrics.append(
             make_metric(
-                self._prefix + "best", "Best", j["results"]["best"][0], "gauge", **ids
+                self.prefix + "best", "Best", j["results"]["best"][0], "gauge", **ids
             )
         )
 
         metrics.append(
             make_metric(
-                self._prefix + "errors",
+                self.prefix + "errors",
                 "Count of errors",
                 len(j["results"]["error_log"]),
                 "counter",
@@ -112,7 +112,7 @@ class XmrigCollector(object):
 
         metrics.append(
             make_metric(
-                self._prefix + "connection_uptime",
+                self.prefix + "connection_uptime",
                 "Connection uptime",
                 j["connection"]["uptime"],
                 "counter",
@@ -122,7 +122,7 @@ class XmrigCollector(object):
 
         metrics.append(
             make_metric(
-                self._prefix + "connection_ping",
+                self.prefix + "connection_ping",
                 "Connection ping",
                 j["connection"]["ping"],
                 "gauge",
@@ -132,7 +132,7 @@ class XmrigCollector(object):
 
         metrics.append(
             make_metric(
-                self._prefix + "connection_failures",
+                self.prefix + "connection_failures",
                 "Connection failures",
                 j["connection"]["failures"],
                 "counter",
@@ -142,7 +142,7 @@ class XmrigCollector(object):
 
         metrics.append(
             make_metric(
-                self._prefix + "pool_accepted_shares",
+                self.prefix + "pool_accepted_shares",
                 "Pool accepted shares",
                 j["connection"]["accepted"],
                 "counter",
@@ -152,7 +152,7 @@ class XmrigCollector(object):
 
         metrics.append(
             make_metric(
-                self._prefix + "pool_rejected_shares",
+                self.prefix + "pool_rejected_shares",
                 "Pool rejected shares",
                 j["connection"]["rejected"],
                 "counter",
