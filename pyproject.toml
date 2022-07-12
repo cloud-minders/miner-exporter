@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "miner_exporter"
-version = "0.0.5"
+version = "0.0.6"
 description = "Collect data about miners and exposes them for Prometheus"
 authors = ["Carlos Rincon <c.rincon@addermobile.com>"]
 
