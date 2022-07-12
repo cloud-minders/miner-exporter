@@ -28,7 +28,7 @@ $ poetry shell
 
 ```sh
 $ miner-exporter --help
-Usage: main.py [OPTIONS] COMMAND [ARGS]...
+Usage: miner-exporter [OPTIONS] COMMAND [ARGS]...
 
 Options:
   --version  Show the version and exit.
