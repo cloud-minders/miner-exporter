@@ -1,5 +1,6 @@
-import requests
-from miner_exporter.libs.utils import make_metric
+from miner_exporter.libs.utils import make_metric, requests_retry_session
+from miner_exporter.config.events_emitter import emitter
+from requests.exceptions import ConnectionError
 
 
 class XmrigCollector(object):
@@ -7,11 +8,17 @@ class XmrigCollector(object):
         self.url = url
         self.custom_labels = custom_labels
         self.prefix = "xmrig_"
+        self.session = requests_retry_session()
 
     def collect(self):
+        emitter.emit("logger.debug", msg="collecting from XmrigCollector")
         metrics = []
 
-        j = requests.get(self.url).json()
+        try:
+            j = self.session.get(self.url).json()
+        except ConnectionError:
+            emitter.emit("logger.warn", msg="XmrigCollector ConnectionError")
+            return []
         ids = {}
 
         for i in range(len(self.custom_labels)):

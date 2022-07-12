@@ -4,6 +4,9 @@ version = "0.0.5"
 description = "Collect data about miners and exposes them for Prometheus"
 authors = ["Carlos Rincon <c.rincon@addermobile.com>"]
 
+[tool.poetry.scripts]
+miner-exporter = "miner_exporter:main"
+
 [tool.poetry.dependencies]
 python = "^3.7"
 requests = "^2.28.0"

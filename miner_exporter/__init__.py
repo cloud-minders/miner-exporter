@@ -1,9 +1,9 @@
-from miner_exporter.cli.main import cli
+from miner_exporter.cli import cli
 import miner_exporter.subscribers.main
 from miner_exporter.config.events_emitter import emitter
 import traceback
 
-if __name__ == "__main__":
+def main():
     try:
         cli()
     except SystemExit:
@@ -14,3 +14,6 @@ if __name__ == "__main__":
 
     emitter.emit("logger.info", msg="finished running cli.")
 
+
+if __name__ == "__main__":
+    main()
