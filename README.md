@@ -27,7 +27,7 @@ $ poetry shell
 ```
 
 ```sh
-$ python main.py --help
+$ miner-exporter --help
 Usage: main.py [OPTIONS] COMMAND [ARGS]...
 
 Options:
@@ -36,28 +36,36 @@ Options:
 
 Commands:
   exporter  Run exporter
-
 ```
 
 ```sh
-$ python main.py exporter --help
-Usage: main.py exporter [OPTIONS]
+$ miner-exporter exporter --help
+Usage: miner-exporter exporter [OPTIONS]
 
   Run exporter
 
 Options:
-  -p, --port INTEGER  The listening port  [default: 9189]
-  --bind TEXT         The bind address  [default: 127.0.0.1]
-  --xmrig-url TEXT    The xmrig API address
-  --trex-url TEXT     The t-rex API address
-  --help              Show this message and exit.
-
+  -m, --mode [server|textfile|pushgateway|stdout]
+                                  [default: server]
+  -tf, --textfile TEXT            textfile location  [default: /var/lib/node_e
+                                  xporter/textfile_collector/gpu_exporter.prom
+                                  ]
+  -p, --port INTEGER              server port  [default: 9235]
+  -pu, --push-url TEXT            pushgateway url  [default: localhost:9091]
+  --push-user TEXT                pushgateway username
+  --push-pass TEXT                pushgateway password
+  --push-job-id TEXT              pushgateway suffix for job name
+  -i, --interval INTEGER          Interval in seconds for scraping metrics
+  --xmrig-url TEXT                The xmrig API address
+  --trex-url TEXT                 The t-rex API address
+  -l, --label <TEXT TEXT>...
+  --help    
 ```
 
-Exposes metrics API on 127.0.0.1:9189 by default
+Exposes metrics API on 0.0.0.0:9235 by default
 
 ```sh
-$ python main.py exporter --xmrig-url http://127.0.0.1:8080/1/summary --trex-url http://127.0.0.1:4067/summary
+$ miner-exporter exporter --xmrig-url http://127.0.0.1:8080/1/summary --trex-url http://127.0.0.1:4067/summary
 ```
 
 ### xmrig
