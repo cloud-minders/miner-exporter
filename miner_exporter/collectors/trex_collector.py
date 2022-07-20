@@ -19,13 +19,14 @@ class TrexCollector(object):
         except ConnectionError:
             emitter.emit("logger.warn", msg="TrexCollector ConnectionError")
             return []
-        ids = {
+
+        labels = {
             "user": j["active_pool"]["user"],
             "worker_id": j["active_pool"]["worker"],
         }
 
         for i in range(len(self.custom_labels)):
-            ids[self.custom_labels[i][0]] = self.custom_labels[i][1]
+            labels[self.custom_labels[i][0]] = self.custom_labels[i][1]
 
         count = 0
         for gpu in j["gpus"]:
@@ -33,7 +34,7 @@ class TrexCollector(object):
                 "gpu_name": gpu["name"],
                 "vendor": gpu["vendor"],
             }
-            labels.update(ids)
+            labels.update(labels)
             metrics.append(
                 make_metric(
                     self.prefix + f"gpu_hashrate{count}",
@@ -51,7 +52,7 @@ class TrexCollector(object):
                 "Overall Hashrate",
                 j["hashrate"],
                 "gauge",
-                **ids,
+                **labels,
             )
         )
 
@@ -61,7 +62,7 @@ class TrexCollector(object):
                 "Hashrate in day",
                 j["hashrate_day"],
                 "gauge",
-                **ids,
+                **labels,
             )
         )
 
@@ -71,7 +72,7 @@ class TrexCollector(object):
                 "Hashrate in hour",
                 j["hashrate_hour"],
                 "gauge",
-                **ids,
+                **labels,
             )
         )
 
@@ -81,19 +82,27 @@ class TrexCollector(object):
                 "Hashrate in minute",
                 j["hashrate_minute"],
                 "gauge",
-                **ids,
+                **labels,
             )
         )
 
         metrics.append(
             make_metric(
-                self.prefix + "gpu_total", "Total gpus", j["gpu_total"], "gauge", **ids
+                self.prefix + "gpu_total",
+                "Total gpus",
+                j["gpu_total"],
+                "gauge",
+                **labels,
             )
         )
 
         metrics.append(
             make_metric(
-                self.prefix + "sharerate", "Sharerate", j["sharerate"], "gauge", **ids
+                self.prefix + "sharerate",
+                "Sharerate",
+                j["sharerate"],
+                "gauge",
+                **labels,
             )
         )
 
@@ -103,7 +112,7 @@ class TrexCollector(object):
                 "Average Sharerate",
                 j["sharerate_average"],
                 "gauge",
-                **ids,
+                **labels,
             )
         )
 
@@ -113,7 +122,7 @@ class TrexCollector(object):
                 "Pool accepted shares",
                 j["accepted_count"],
                 "counter",
-                **ids,
+                **labels,
             )
         )
 
@@ -123,7 +132,7 @@ class TrexCollector(object):
                 "Pool rejected shares",
                 j["rejected_count"],
                 "counter",
-                **ids,
+                **labels,
             )
         )
 
@@ -133,7 +142,7 @@ class TrexCollector(object):
                 "Pool last sumbit timestamp",
                 j["active_pool"]["last_submit_ts"],
                 "gauge",
-                **ids,
+                **labels,
             )
         )
 
@@ -143,23 +152,23 @@ class TrexCollector(object):
                 "Pool ping",
                 j["active_pool"]["ping"],
                 "gauge",
-                **ids,
+                **labels,
             )
         )
 
         # metrics.append(
         #     make_metric(
-        #         self.prefix + "gpu_driver", "NVIDIA driver", j["driver"], "info", **ids
+        #         self.prefix + "gpu_driver", "NVIDIA driver", j["driver"], "info", **labels
         #     )
         # )
 
         # metrics.append(
-        #     make_metric(self.prefix + "os", "Operating System", j["os"], "info", **ids)
+        #     make_metric(self.prefix + "os", "Operating System", j["os"], "info", **labels)
         # )
 
         # metrics.append(
         #     make_metric(
-        #         self.prefix + "algorithm", "Algorithm", j["algorithm"], "info", **ids
+        #         self.prefix + "algorithm", "Algorithm", j["algorithm"], "info", **labels
         #     )
         # )
 
@@ -169,7 +178,7 @@ class TrexCollector(object):
         #         "Pool url",
         #         j["active_pool"]["url"],
         #         "info",
-        #         **ids
+        #         **labels
         #     )
         # )
 
@@ -179,7 +188,7 @@ class TrexCollector(object):
         #         "Pool user",
         #         j["active_pool"]["user"],
         #         "info",
-        #         **ids
+        #         **labels
         #     )
         # )
 

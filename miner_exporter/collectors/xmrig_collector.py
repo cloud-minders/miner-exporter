@@ -19,10 +19,11 @@ class XmrigCollector(object):
         except ConnectionError:
             emitter.emit("logger.warn", msg="XmrigCollector ConnectionError")
             return []
-        ids = {}
+
+        labels = {}
 
         for i in range(len(self.custom_labels)):
-            ids[self.custom_labels[i][0]] = self.custom_labels[i][1]
+            labels[self.custom_labels[i][0]] = self.custom_labels[i][1]
 
         for i, v in enumerate(j["hashrate"]["total"]):
             if v is not None:
@@ -32,7 +33,7 @@ class XmrigCollector(object):
                         "Overall Hashrate",
                         v,
                         "gauge",
-                        **ids,
+                        **labels,
                     )
                 )
 
@@ -40,7 +41,7 @@ class XmrigCollector(object):
         #     for i, v in enumerate(t):
         #         if not v is None:
         #             labels = {"thread": tidx}
-        #             labels.update(ids)
+        #             labels.update(labels)
         #             metrics.append(
         #                 make_metric(
         #                     self.prefix + "thread_hashrate%d" % i,
@@ -57,7 +58,7 @@ class XmrigCollector(object):
                 "Current Difficulty",
                 j["results"]["diff_current"],
                 "gauge",
-                **ids,
+                **labels,
             )
         )
 
@@ -67,7 +68,7 @@ class XmrigCollector(object):
                 "Good Shares",
                 j["results"]["shares_good"],
                 "counter",
-                **ids,
+                **labels,
             )
         )
 
@@ -77,7 +78,7 @@ class XmrigCollector(object):
                 "Total Shares",
                 j["results"]["shares_total"],
                 "counter",
-                **ids,
+                **labels,
             )
         )
 
@@ -87,7 +88,7 @@ class XmrigCollector(object):
                 "Average Time",
                 j["results"]["avg_time"],
                 "gauge",
-                **ids,
+                **labels,
             )
         )
 
@@ -97,13 +98,13 @@ class XmrigCollector(object):
                 "Total Hashes",
                 j["results"]["hashes_total"],
                 "counter",
-                **ids,
+                **labels,
             )
         )
 
         metrics.append(
             make_metric(
-                self.prefix + "best", "Best", j["results"]["best"][0], "gauge", **ids
+                self.prefix + "best", "Best", j["results"]["best"][0], "gauge", **labels
             )
         )
 
@@ -113,7 +114,7 @@ class XmrigCollector(object):
                 "Count of errors",
                 len(j["results"]["error_log"]),
                 "counter",
-                **ids,
+                **labels,
             )
         )
 
@@ -123,7 +124,7 @@ class XmrigCollector(object):
                 "Connection uptime",
                 j["connection"]["uptime"],
                 "counter",
-                **ids,
+                **labels,
             )
         )
 
@@ -133,7 +134,7 @@ class XmrigCollector(object):
                 "Connection ping",
                 j["connection"]["ping"],
                 "gauge",
-                **ids,
+                **labels,
             )
         )
 
@@ -143,7 +144,7 @@ class XmrigCollector(object):
                 "Connection failures",
                 j["connection"]["failures"],
                 "counter",
-                **ids,
+                **labels,
             )
         )
 
@@ -153,7 +154,7 @@ class XmrigCollector(object):
                 "Pool accepted shares",
                 j["connection"]["accepted"],
                 "counter",
-                **ids,
+                **labels,
             )
         )
 
@@ -163,7 +164,7 @@ class XmrigCollector(object):
                 "Pool rejected shares",
                 j["connection"]["rejected"],
                 "counter",
-                **ids,
+                **labels,
             )
         )
 

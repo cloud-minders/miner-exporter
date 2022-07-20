@@ -1,10 +1,10 @@
-# miner_exporter
+# miner-exporter
 
 Collect data about miners and exposes them for Prometheus
 
 ## Table of Contents
 
-- [miner_exporter](#miner_exporter)
+- [miner-exporter](#miner_exporter)
   - [Table of Contents](#table-of-contents)
   - [Usage](#usage)
     - [xmrig](#xmrig)

@@ -14,6 +14,7 @@ import time
 import toml
 import sys
 from http.server import HTTPServer
+from os import path
 
 pyproject = toml.load("pyproject.toml")["tool"]["poetry"]
 
@@ -24,7 +25,7 @@ def start_exporter(
     push_job_id=None,
     push_url="localhost:9091",
     mode="server",
-    textfile_path="/var/lib/node_exporter/textfile_collector/gpu_exporter.prom",
+    textfile_path="/var/lib/node_exporter/textfile_collector",
     server_port=9235,
     interval=60,
     xmrig_url=None,
@@ -52,6 +53,8 @@ def start_exporter(
             or env_textfile_path == None
         ):
             _textfile_path = textfile_path
+
+        _textfile_path = path.join(_textfile_path, f"{pyproject['name']}.prom")
 
         emitter.emit("logger.info", msg=f"writing metrics to {_textfile_path}")
         prometheus_client.write_to_textfile(path=_textfile_path, registry=registry)
